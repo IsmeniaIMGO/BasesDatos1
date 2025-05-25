@@ -1,0 +1,121 @@
+package src.dao;
+
+import src.model.*;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UsuarioDAO {
+
+    // Insertar un nuevo usuario
+    public boolean insertarUsuario(Usuario usuario) {
+        String sql = "INSERT INTO Usuario (cc, nombre, telefono, nivel, cuenta, historialSesion) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, usuario.getCc());
+            stmt.setString(2, usuario.getNombre());
+            stmt.setString(3, usuario.getTelefono());
+            stmt.setInt(4, usuario.getNivel());
+            stmt.setString(5, usuario.getCuenta());
+            stmt.setInt(6, usuario.getHistorialSesion());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al insertar usuario: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Consultar un usuario por cc
+    public Usuario obtenerUsuarioPorCc(int cc) {
+        String sql = "SELECT * FROM Usuario WHERE cc = ?";
+        Usuario usuario = null;
+
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, cc);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                usuario = new Usuario();
+                usuario.setCc(rs.getInt("cc"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setTelefono(rs.getString("telefono"));
+                usuario.setNivel(rs.getInt("nivel"));
+                usuario.setCuenta(rs.getString("cuenta"));
+                usuario.setHistorialSesion(rs.getInt("historialSesion"));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al obtener usuario: " + e.getMessage());
+        }
+
+        return usuario;
+    }
+
+    // Actualizar usuario
+    public boolean actualizarUsuario(Usuario usuario) {
+        String sql = "UPDATE Usuario SET nombre = ?, telefono = ?, nivel = ?, cuenta = ?, historialSesion = ? WHERE cc = ?";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, usuario.getNombre());
+            stmt.setString(2, usuario.getTelefono());
+            stmt.setInt(3, usuario.getNivel());
+            stmt.setString(4, usuario.getCuenta());
+            stmt.setInt(5, usuario.getHistorialSesion());
+            stmt.setInt(6, usuario.getCc());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al actualizar usuario: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Eliminar usuario por cc
+    public boolean eliminarUsuario(int cc) {
+        String sql = "DELETE FROM Usuario WHERE cc = ?";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, cc);
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al eliminar usuario: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Listar todos los usuarios
+    public List<Usuario> listarUsuarios() {
+        String sql = "SELECT * FROM Usuario";
+        List<Usuario> lista = new ArrayList<>();
+
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setCc(rs.getInt("cc"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setTelefono(rs.getString("telefono"));
+                usuario.setNivel(rs.getInt("nivel"));
+                usuario.setCuenta(rs.getString("cuenta"));
+                usuario.setHistorialSesion(rs.getInt("historialSesion"));
+                lista.add(usuario);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al listar usuarios: " + e.getMessage());
+        }
+
+        return lista;
+    }
+}
