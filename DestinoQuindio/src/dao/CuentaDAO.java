@@ -9,13 +9,13 @@ public class CuentaDAO {
 
     // Insertar nueva cuenta
     public boolean insertarCuenta(Cuenta cuenta) {
-        String sql = "INSERT INTO Cuenta (correo, user, password) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Cuenta (correo, usuario, contrasena) VALUES (?, ?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, cuenta.getCorreo());
-            stmt.setString(2, cuenta.getUser());
-            stmt.setString(3, cuenta.getPassword());
+            stmt.setString(2, cuenta.getUsuario());
+            stmt.setString(3, cuenta.getcontrasena());
 
             return stmt.executeUpdate() > 0;
 
@@ -39,8 +39,8 @@ public class CuentaDAO {
             if (rs.next()) {
                 cuenta = new Cuenta();
                 cuenta.setCorreo(rs.getString("correo"));
-                cuenta.setUser(rs.getString("user"));
-                cuenta.setPassword(rs.getString("password"));
+                cuenta.setUsuario(rs.getString("usuario"));
+                cuenta.setcontrasena(rs.getString("contrasena"));
             }
 
         } catch (SQLException e) {
@@ -52,12 +52,12 @@ public class CuentaDAO {
 
     // Actualizar cuenta
     public boolean actualizarCuenta(Cuenta cuenta) {
-        String sql = "UPDATE Cuenta SET user = ?, password = ? WHERE correo = ?";
+        String sql = "UPDATE Cuenta SET usuario = ?, contrasena = ? WHERE correo = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, cuenta.getUser());
-            stmt.setString(2, cuenta.getPassword());
+            stmt.setString(1, cuenta.getUsuario());
+            stmt.setString(2, cuenta.getcontrasena());
             stmt.setString(3, cuenta.getCorreo());
 
             return stmt.executeUpdate() > 0;
@@ -95,8 +95,8 @@ public class CuentaDAO {
             while (rs.next()) {
                 Cuenta cuenta = new Cuenta();
                 cuenta.setCorreo(rs.getString("correo"));
-                cuenta.setUser(rs.getString("user"));
-                cuenta.setPassword(rs.getString("password"));
+                cuenta.setUsuario(rs.getString("usuario")); 
+                cuenta.setcontrasena(rs.getString("contrasena"));
                 lista.add(cuenta);
             }
 

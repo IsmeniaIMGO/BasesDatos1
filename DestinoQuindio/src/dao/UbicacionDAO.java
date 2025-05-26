@@ -86,4 +86,34 @@ public class UbicacionDAO {
             return false;
         }
     }
+
+    public List<Object[]> listarUbicacionesConMunicipio() {
+    List<Object[]> lista = new ArrayList<>();
+    String sql = """
+        SELECT u.id, u.latitud, u.longitud, m.nombre AS municipio
+        FROM Ubicacion u
+        LEFT JOIN Municipio m ON u.municipio = m.id
+        """;
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Object[] fila = new Object[]{
+                rs.getInt("id"),
+                rs.getDouble("latitud"),
+                rs.getDouble("longitud"),
+                rs.getString("municipio")
+            };
+            lista.add(fila);
+        }
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al listar ubicaciones: " + e.getMessage());
+    }
+
+    return lista;
+    }
+
 }

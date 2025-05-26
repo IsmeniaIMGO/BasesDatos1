@@ -16,11 +16,29 @@ public class MenuAdmin extends JFrame {
 
         // CRUD de Entidades
         JMenu menuEntidades = new JMenu("Entidades");
-        menuEntidades.add(new JMenuItem("Usuarios"));
-        menuEntidades.add(new JMenuItem("Clientes"));
-        menuEntidades.add(new JMenuItem("Conductores"));
-        menuEntidades.add(new JMenuItem("Vehículos"));
-        menuEntidades.add(new JMenuItem("Ubicaciones"));
+        
+        JMenuItem miConsultaUsuarios = new JMenuItem("Consulta de usuarios");
+        miConsultaUsuarios.addActionListener(e -> new ConsultaUsuariosForm());
+        menuEntidades.add(miConsultaUsuarios);
+
+        JMenuItem miConsultaClientes = new JMenuItem("Consulta de clientes");
+        miConsultaClientes.addActionListener(e -> new ConsultaClientesForm());
+        menuEntidades.add(miConsultaClientes);
+
+        JMenuItem miConsultaConductores = new JMenuItem("Conductores");
+        miConsultaConductores.addActionListener(e -> new ConsultaConductoresForm());
+        menuEntidades.add(miConsultaConductores);
+
+        JMenuItem miConsultaVehiculos = new JMenuItem("Vehículos");
+        miConsultaVehiculos.addActionListener(e -> new ConsultaVehiculosForm());
+        menuEntidades.add(miConsultaVehiculos);
+
+        JMenuItem miConsultaUbicaciones = new JMenuItem("Ubicaciones");
+        miConsultaUbicaciones.addActionListener(e -> new ConsultaUbicacionesForm());
+        menuEntidades.add(miConsultaUbicaciones);
+
+        
+
         menuBar.add(menuEntidades);
 
         // Transacciones
@@ -49,7 +67,11 @@ public class MenuAdmin extends JFrame {
 
         // Gestión de sistema
         JMenu menuSistema = new JMenu("Sistema");
-        menuSistema.add(new JMenuItem("Gestión de usuarios"));
+        JMenuItem miGestionUsuarios = new JMenuItem("Gestión de usuarios");
+        miGestionUsuarios.addActionListener(e -> new GestionUsuariosForm());
+        menuSistema.add(miGestionUsuarios);
+
+
         menuSistema.add(new JMenuItem("Bitácora de ingreso/salida"));
         menuSistema.add(new JMenuItem("Cerrar sesión"));
         menuBar.add(menuSistema);

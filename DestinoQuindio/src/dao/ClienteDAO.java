@@ -77,4 +77,33 @@ public class ClienteDAO {
 
         return lista;
     }
+
+    public List<Usuario> listarClientesConDatos() {
+    List<Usuario> lista = new ArrayList<>();
+    String sql = """
+        SELECT u.cc, u.nombre, u.telefono, u.cuenta
+        FROM Cliente c
+        JOIN Usuario u ON c.cc = u.cc
+        """;
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Usuario u = new Usuario();
+            u.setCc(rs.getInt("cc"));
+            u.setNombre(rs.getString("nombre"));
+            u.setTelefono(rs.getString("telefono"));
+            u.setCuenta(rs.getString("cuenta"));
+            lista.add(u);
+        }
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al listar clientes con datos: " + e.getMessage());
+    }
+
+    return lista;
+}
+
 }

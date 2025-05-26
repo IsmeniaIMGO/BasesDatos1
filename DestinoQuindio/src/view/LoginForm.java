@@ -11,6 +11,7 @@ public class LoginForm extends JFrame {
     private JTextField txtCorreo;
     private JPasswordField txtPassword;
     private JButton btnLogin;
+    private JButton btnCrearCuenta;
 
     public LoginForm() {
         setTitle("Login - Sistema de Transporte Turístico");
@@ -29,6 +30,13 @@ public class LoginForm extends JFrame {
 
         btnLogin = new JButton("Iniciar sesión");
         add(btnLogin);
+
+        btnCrearCuenta = new JButton("Crear cuenta");
+        add(btnCrearCuenta);
+        btnCrearCuenta.addActionListener(e -> {
+            new RegistroForm();
+            dispose(); // Cierra Login mientras registra
+        });
 
         // Acción de login
         btnLogin.addActionListener(e -> autenticarUsuario());

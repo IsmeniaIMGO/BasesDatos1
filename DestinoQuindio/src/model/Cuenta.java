@@ -21,11 +21,11 @@ public class Cuenta {
         this.correo = correo;
     }
 
-    public String getUser() {
+    public String getUsuario() {
         return usuario;
     }
 
-    public void setUser(String usuario) {
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 

@@ -95,4 +95,29 @@ public class VehiculoDAO {
 
         return lista;
     }
+    public List<Object[]> listarVehiculosDatos() {
+    List<Object[]> lista = new ArrayList<>();
+    String sql = "SELECT placa, marca FROM Vehiculo";
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Object[] fila = new Object[]{
+                rs.getString("placa"),
+                rs.getString("marca")
+            };
+            lista.add(fila);
+        }
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al listar vehículos: " + e.getMessage());
+    }
+
+    return lista;
+}
+
+
+    
 }

@@ -95,4 +95,37 @@ public class ConductorDAO {
 
         return lista;
     }
+
+    public List<Object[]> listarConductoresConDatos() {
+    List<Object[]> lista = new ArrayList<>();
+    String sql = """
+        SELECT u.cc, u.nombre, u.telefono, u.cuenta, v.placa, v.marca
+        FROM Conductor c
+        JOIN Usuario u ON c.cc = u.cc
+        JOIN Vehiculo v ON c.vehiculo = v.placa
+        """;
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Object[] fila = new Object[]{
+                rs.getInt("cc"),
+                rs.getString("nombre"),
+                rs.getString("telefono"),
+                rs.getString("cuenta"),
+                rs.getString("placa"),
+                rs.getString("marca")
+            };
+            lista.add(fila);
+        }
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al listar conductores con datos: " + e.getMessage());
+    }
+
+    return lista;
+    }
+
 }

@@ -1,27 +1,30 @@
 import java.sql.Connection;
 import src.dao.ConexionBD;
-import src.view.LoginForm;
+import src.view.*;
+import src.model.*;
 
 
 public class Main {
     public static void main(String[] args) {
-        Connection conn = ConexionBD.getConnection();
-
-        if (conn != null) {
-            System.out.println("✅ Conexión exitosa a la base de datos.");
-            // Aquí puedes iniciar tu aplicación, por ejemplo, mostrando el formulario de login
-            new LoginFormForm();
-        } else {
-            System.err.println("❌ Error al conectar a la base de datos.");
+        // Verificar conexión a la base de datos
+        try (Connection conn = ConexionBD.getConnection()) {
+            if (conn != null) {
+                System.out.println("✅ Conexión exitosa a la base de datos.");
+            } else {
+                System.out.println("❌ No se pudo establecer conexión a la base de datos.");
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Error al conectar a la base de datos: " + e.getMessage());
         }
-        
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Juan Pérez");
+       
+
+        // Iniciar el formulario de login
+        //new LoginForm();
+        new MenuAdmin(usuario);
+        //new MenuCliente(usuario);
     }
 
-    private static class LoginFormForm extends LoginForm {
-        // Esta clase es solo un marcador de posición para evitar conflictos de nombres.
-        // En una aplicación real, LoginForm ya debería estar implementada correctamente.
-        public LoginFormForm() {
-            super();
-        }
-    }
 }

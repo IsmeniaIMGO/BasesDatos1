@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConexionBD {
 
-    private static final String URL = "jdbc:oracle:thin:@//localhost:1521/XE";
+    private static final String URL = "jdbc:oracle:thin:@//localhost:1521/xe";
     private static final String USUARIO = "system"; // Cambia esto si creas otro usuario
     private static final String PASSWORD = "oracle"; // Reemplaza con tu contraseña real
 
