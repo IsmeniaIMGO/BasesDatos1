@@ -118,4 +118,33 @@ public class UsuarioDAO {
 
         return lista;
     }
+
+
+    public Usuario obtenerUsuarioPorCuenta(String correoCuenta) {
+    String sql = "SELECT * FROM Usuario WHERE cuenta = ?";
+    Usuario usuario = null;
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, correoCuenta);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            usuario = new Usuario();
+            usuario.setCc(rs.getInt("cc"));
+            usuario.setNombre(rs.getString("nombre"));
+            usuario.setTelefono(rs.getString("telefono"));
+            usuario.setNivel(rs.getInt("nivel"));
+            usuario.setCuenta(rs.getString("cuenta"));
+            usuario.setHistorialSesion(rs.getInt("historialSesion"));
+        }
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al buscar usuario por cuenta: " + e.getMessage());
+    }
+
+    return usuario;
+}
+
 }
