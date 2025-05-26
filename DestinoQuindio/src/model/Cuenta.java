@@ -2,15 +2,15 @@ package src.model;
 
 public class Cuenta {
     private String correo;
-    private String user;
-    private String password;
+    private String usuario;
+    private String contrasena;
 
     public Cuenta() {}
 
-    public Cuenta(String correo, String user, String password) {
+    public Cuenta(String correo, String usuario, String contrasena) {
         this.correo = correo;
-        this.user = user;
-        this.password = password;
+        this.usuario = usuario;
+        this.contrasena = contrasena;
     }
 
     public String getCorreo() {
@@ -22,18 +22,18 @@ public class Cuenta {
     }
 
     public String getUser() {
-        return user;
+        return usuario;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser(String usuario) {
+        this.usuario = usuario;
     }
 
-    public String getPassword() {
-        return password;
+    public String getcontrasena() {
+        return contrasena;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setcontrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 }

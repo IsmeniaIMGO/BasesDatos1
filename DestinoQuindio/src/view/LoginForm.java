@@ -38,12 +38,12 @@ public class LoginForm extends JFrame {
 
     private void autenticarUsuario() {
         String correo = txtCorreo.getText();
-        String password = new String(txtPassword.getPassword());
+        String contrasena = new String(txtPassword.getPassword());
 
         CuentaDAO cuentaDAO = new CuentaDAO();
         Cuenta cuenta = cuentaDAO.obtenerCuentaPorCorreo(correo);
 
-        if (cuenta != null && cuenta.getPassword().equals(password)) {
+        if (cuenta != null && cuenta.getcontrasena().equals(contrasena)) {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             Usuario usuario = usuarioDAO.obtenerUsuarioPorCuenta(correo);
 
