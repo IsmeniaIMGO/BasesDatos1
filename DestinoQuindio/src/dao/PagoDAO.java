@@ -99,4 +99,38 @@ public class PagoDAO {
 
         return lista;
     }
+
+    public List<Object[]> listarPagosConDetalle() {
+    List<Object[]> lista = new ArrayList<>();
+    String sql = """
+        SELECT 
+            p.id AS id,
+            p.valor AS valor,
+            mp.nombre AS metodoPago
+            
+        FROM Pago p
+        JOIN MetodoPago mp ON p.metodoPago = mp.id
+        """;
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Object[] fila = new Object[]{
+                rs.getInt("id"),
+                rs.getDouble("valor"),
+                rs.getString("metodoPago"),
+         
+            };
+            lista.add(fila);
+        }
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al listar pagos con detalle: " + e.getMessage());
+    }
+
+    return lista;
+}
+
 }
