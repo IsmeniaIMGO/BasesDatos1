@@ -19,36 +19,34 @@ public class MenuAdmin extends JFrame {
         JMenuBar menuBar = new JMenuBar();
 
         // CRUD de Entidades
-        JMenu menuEntidades = new JMenu("Entidades");
+        JMenu menuEntidades = new JMenu("CRUD Entidades");
+        JMenuItem miCRUDUsuarios = new JMenuItem("usuarios");
+        miCRUDUsuarios.addActionListener(e -> new GestionUsuariosForm());
+        menuEntidades.add(miCRUDUsuarios);
+
+        JMenuItem miCRUDClientes = new JMenuItem("Vehiculos");
+        miCRUDClientes.addActionListener(e -> new ConsultaClientesForm());
+        menuEntidades.add(miCRUDClientes);
+
+        JMenuItem miCRUDConductores = new JMenuItem("Ubicaciones");
+        miCRUDConductores.addActionListener(e -> new ConsultaConductoresForm());
+        menuEntidades.add(miCRUDConductores);
+
+        JMenuItem miCRUDVehiculos = new JMenuItem("Pagos");
+        miCRUDVehiculos.addActionListener(e -> new ConsultaVehiculosForm());
+        menuEntidades.add(miCRUDVehiculos);
+
+        JMenuItem miCRUDUbicaciones = new JMenuItem("Viajes");
+        miCRUDUbicaciones.addActionListener(e -> new ConsultaUbicacionesForm());
+        menuEntidades.add(miCRUDUbicaciones);
+
         
-        JMenuItem miConsultaUsuarios = new JMenuItem("Consulta de usuarios");
-        miConsultaUsuarios.addActionListener(e -> new ConsultaUsuariosForm());
-        menuEntidades.add(miConsultaUsuarios);
-
-        JMenuItem miConsultaClientes = new JMenuItem("Consulta de clientes");
-        miConsultaClientes.addActionListener(e -> new ConsultaClientesForm());
-        menuEntidades.add(miConsultaClientes);
-
-        JMenuItem miConsultaConductores = new JMenuItem("Consulta de Conductores");
-        miConsultaConductores.addActionListener(e -> new ConsultaConductoresForm());
-        menuEntidades.add(miConsultaConductores);
-
-        JMenuItem miConsultaVehiculos = new JMenuItem("Consulta de Vehículos");
-        miConsultaVehiculos.addActionListener(e -> new ConsultaVehiculosForm());
-        menuEntidades.add(miConsultaVehiculos);
-
-        JMenuItem miConsultaUbicaciones = new JMenuItem("Consulta de Ubicaciones");
-        miConsultaUbicaciones.addActionListener(e -> new ConsultaUbicacionesForm());
-        menuEntidades.add(miConsultaUbicaciones);
-
-        
-
         menuBar.add(menuEntidades);
 
         // Transacciones
         JMenu menuTransacciones = new JMenu("Transacciones");
         
-        JMenuItem miConsultaViajes = new JMenuItem("Consulta de viajes");
+        JMenuItem miConsultaViajes = new JMenuItem("viajes");
         miConsultaViajes.addActionListener(e -> new ConsultaViajesForm());
         menuTransacciones.add(miConsultaViajes);
 
@@ -59,7 +57,7 @@ public class MenuAdmin extends JFrame {
         menuBar.add(menuTransacciones);
 
         // Reportes
-        JMenu menuReportes = new JMenu("Reportes y Consultas");
+        JMenu menuReportes = new JMenu("Reportes");
         
         JMenuItem miReporteIngresos = new JMenuItem("Reporte de ingresos");
         miReporteIngresos.addActionListener(e -> {
@@ -69,6 +67,29 @@ public class MenuAdmin extends JFrame {
         });
         menuReportes.add(miReporteIngresos);
 
+        JMenu menuConsultas = new JMenu("Consultas");
+        JMenuItem miConsultaUsuarios = new JMenuItem("Consulta de usuarios");
+        miConsultaUsuarios.addActionListener(e -> new ConsultaUsuariosForm());
+        menuConsultas.add(miConsultaUsuarios);
+
+        JMenuItem miConsultaClientes = new JMenuItem("Consulta de clientes");
+        miConsultaClientes.addActionListener(e -> new ConsultaClientesForm());
+        menuConsultas.add(miConsultaClientes);
+
+        JMenuItem miConsultaConductores = new JMenuItem("Consulta de Conductores");
+        miConsultaConductores.addActionListener(e -> new ConsultaConductoresForm());
+        menuConsultas.add(miConsultaConductores);
+
+        JMenuItem miConsultaVehiculos = new JMenuItem("Consulta de Vehículos");
+        miConsultaVehiculos.addActionListener(e -> new ConsultaVehiculosForm());
+        menuConsultas.add(miConsultaVehiculos);
+
+        JMenuItem miConsultaUbicaciones = new JMenuItem("Consulta de Ubicaciones");
+        miConsultaUbicaciones.addActionListener(e -> new ConsultaUbicacionesForm());
+        menuConsultas.add(miConsultaUbicaciones);
+
+        menuBar.add(menuConsultas);
+        
 
         JMenuItem miReporteMunicipios = new JMenuItem("Viajes por municipio");
         miReporteMunicipios.addActionListener(e -> {
@@ -79,13 +100,13 @@ public class MenuAdmin extends JFrame {
         menuReportes.add(miReporteMunicipios);
         
 
-        JMenuItem miReporteHistorial = new JMenuItem("Historial de usuarios");
-        miReporteHistorial.addActionListener(e -> {
-            String ruta = "resources/ReporteHistorialUsuarios.pdf";
-            ReporteHistorialUsuarios.generar(ruta);
+        JMenuItem miReporteViajesEstado = new JMenuItem("Viajes por estado");
+        miReporteViajesEstado.addActionListener(e -> {
+            String ruta = "resources/ReporteViajesPorEstado.pdf";
+            ReporteViajesEstado.generar(ruta);
             JOptionPane.showMessageDialog(null, "✅ Reporte generado: " + ruta);
         });
-        menuReportes.add(miReporteHistorial);
+        menuReportes.add(miReporteViajesEstado);
 
 
         JMenuItem miReporteViajesCliente = new JMenuItem("Viajes por cliente");
@@ -125,13 +146,24 @@ public class MenuAdmin extends JFrame {
         }));
         menuUtilidades.add(miCalendario);
 
+
+        JMenuItem miConversorMonedas = new JMenuItem("Conversor de monedas");
+        miConversorMonedas.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+            new ConversorMonedas().setVisible(true);
+        }));
+        menuUtilidades.add(miConversorMonedas);
+
+        JMenuItem miGestionUsuarios = new JMenuItem("Bitacora de usuarios");
+        miGestionUsuarios.addActionListener(e -> new BitacoraUsuariosForm());
+        menuUtilidades.add(miGestionUsuarios);
+
         menuBar.add(menuUtilidades);
 
         // Gestión de sistema
-        JMenu menuSistema = new JMenu("Sistema");
-        JMenuItem miGestionUsuarios = new JMenuItem("Gestión de usuarios");
-        miGestionUsuarios.addActionListener(e -> new GestionUsuariosForm());
-        menuSistema.add(miGestionUsuarios);
+        JMenu menuSistema = new JMenu("Ayudas");
+        JMenuItem miGuia = new JMenuItem("Guia de usuario");
+        miGuia.addActionListener(e -> new GuiaUsuarioForm());
+        menuSistema.add(miGuia);
 
         JMenuItem cerrarSesion = new JMenuItem("Cerrar sesión");
         cerrarSesion.addActionListener(e -> {

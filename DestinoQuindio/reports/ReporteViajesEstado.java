@@ -7,18 +7,18 @@ import src.dao.ConexionBD;
 import java.io.FileOutputStream;
 import java.sql.*;
 
-public class ReporteHistorialUsuarios {
+public class ReporteViajesEstado {
 
     public static void generar(String rutaArchivo) {
         String sql = """
             SELECT 
-                u.cc, 
-                u.nombre, 
-                h.fecha,
-                h.descripcion
-            FROM HistorialSesion h
-            JOIN Usuario u ON h.id = u.historialsesion
-            ORDER BY h.fecha DESC
+                e.nombre AS estado,
+                COUNT(v.id) AS cantidad,
+                e.descripcion
+            FROM Estado e
+            LEFT JOIN Viaje v ON v.estado = e.id
+            GROUP BY e.id, e.nombre, e.descripcion
+            ORDER BY e.id
         """;
 
         Document doc = new Document();
@@ -26,19 +26,16 @@ public class ReporteHistorialUsuarios {
             PdfWriter.getInstance(doc, new FileOutputStream(rutaArchivo));
             doc.open();
 
-            // Título
-            Paragraph titulo = new Paragraph("Historial de Sesión de Usuarios",
+            Paragraph titulo = new Paragraph("Reporte de Viajes por Estado",
                     FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18));
             titulo.setAlignment(Element.ALIGN_CENTER);
             doc.add(titulo);
             doc.add(new Paragraph(" "));
 
-            // Tabla
-            PdfPTable tabla = new PdfPTable(4); // 4 columnas
+            PdfPTable tabla = new PdfPTable(3);
             tabla.setWidthPercentage(100);
-            tabla.addCell("Cédula");
-            tabla.addCell("Nombre");
-            tabla.addCell("Fecha");
+            tabla.addCell("Estado");
+            tabla.addCell("Cantidad de Viajes");
             tabla.addCell("Descripción");
 
             try (Connection conn = ConexionBD.getConnection();
@@ -46,14 +43,13 @@ public class ReporteHistorialUsuarios {
                  ResultSet rs = stmt.executeQuery()) {
 
                 while (rs.next()) {
-                    tabla.addCell(String.valueOf(rs.getInt("cc")));
-                    tabla.addCell(rs.getString("nombre"));
-                    tabla.addCell(rs.getString("fecha"));
+                    tabla.addCell(rs.getString("estado"));
+                    tabla.addCell(String.valueOf(rs.getInt("cantidad")));
                     tabla.addCell(rs.getString("descripcion"));
                 }
 
             } catch (SQLException e) {
-                System.err.println("❌ Error al obtener historial: " + e.getMessage());
+                System.err.println("❌ Error al consultar viajes por estado: " + e.getMessage());
             }
 
             doc.add(tabla);

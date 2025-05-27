@@ -44,5 +44,37 @@ public class HistorialSesionDAO {
         }
 
         return lista;
+
+        
+    }
+
+    public List<Object[]> listarBitacora() {
+        List<Object[]> lista = new ArrayList<>();
+        String sql = """
+            SELECT u.cc, u.nombre, h.fecha, h.descripcion
+            FROM HistorialSesion h
+            JOIN Usuario u ON h.id = u.historialsesion
+            ORDER BY h.fecha DESC
+        """;
+
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Object[] fila = new Object[]{
+                    rs.getInt("cc"),
+                    rs.getString("nombre"),
+                    rs.getTimestamp("fecha"),
+                    rs.getString("descripcion")
+                };
+                lista.add(fila);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al consultar bitácora: " + e.getMessage());
+        }
+
+        return lista;
     }
 }
