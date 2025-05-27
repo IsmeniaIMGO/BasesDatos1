@@ -7,19 +7,20 @@ import java.util.List;
 
 public class MetodoPagoDAO {
 
-    public List<MetodoPago> listarMetodos() {
+
+    public List<MetodoPago> listarMetodosPago() {
         List<MetodoPago> lista = new ArrayList<>();
-        String sql = "SELECT * FROM MetodoPago";
+        String sql = "SELECT id, nombre FROM MetodoPago"; // Ajusta la consulta a tu tabla
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                MetodoPago mp = new MetodoPago();
-                mp.setId(rs.getInt("id"));
-                mp.setNombre(rs.getString("nombre"));
-                lista.add(mp);
+                MetodoPago metodo = new MetodoPago();
+                metodo.setId(rs.getInt("id"));
+                metodo.setNombre(rs.getString("nombre"));
+                lista.add(metodo);
             }
 
         } catch (SQLException e) {

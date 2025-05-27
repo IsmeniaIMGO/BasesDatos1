@@ -20,7 +20,7 @@ public class Calendario extends JFrame implements ActionListener {
         // --- Configuración de la Ventana ---
         setTitle("Calendario");
         setSize(500, 400); // Tamaño ajustado para el calendario
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Cambiar a DISPOSE_ON_CLOSE
         setResizable(false);
         setLocationRelativeTo(null); // Centra la ventana
 

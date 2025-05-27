@@ -101,36 +101,70 @@ public class PagoDAO {
     }
 
     public List<Object[]> listarPagosConDetalle() {
-    List<Object[]> lista = new ArrayList<>();
-    String sql = """
-        SELECT 
-            p.id AS id,
-            p.valor AS valor,
-            mp.nombre AS metodoPago
-            
-        FROM Pago p
-        JOIN MetodoPago mp ON p.metodoPago = mp.id
+        List<Object[]> lista = new ArrayList<>();
+        String sql = """
+            SELECT 
+                p.id AS id,
+                p.valor AS valor,
+                mp.nombre AS metodoPago
+            FROM Pago p
+            JOIN MetodoPago mp ON p.metodoPago = mp.id
         """;
 
-    try (Connection conn = ConexionBD.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        while (rs.next()) {
-            Object[] fila = new Object[]{
-                rs.getInt("id"),
-                rs.getDouble("valor"),
-                rs.getString("metodoPago"),
-         
-            };
-            lista.add(fila);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Object[] fila = new Object[]{
+                    rs.getInt("id"),
+                    rs.getDouble("valor"),
+                    rs.getString("metodoPago")
+                };
+                lista.add(fila);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al listar pagos con detalle: " + e.getMessage());
         }
 
-    } catch (SQLException e) {
-        System.err.println("❌ Error al listar pagos con detalle: " + e.getMessage());
+        return lista;
     }
 
-    return lista;
-}
 
+public List<Object[]> listarPagosConDetallePorCliente(int clienteCc) {
+        List<Object[]> lista = new ArrayList<>();
+        String sql = """
+            SELECT 
+                p.id AS id,
+                p.valor AS valor,
+                mp.nombre AS metodoPago
+            FROM Pago p
+            JOIN MetodoPago mp ON p.metodoPago = mp.id
+            JOIN Viaje v ON p.id = v.pago
+            WHERE v.cliente = ?
+        """;
+
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, clienteCc);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Object[] fila = new Object[]{
+                    rs.getInt("id"),
+                    rs.getDouble("valor"),
+                    rs.getString("metodoPago")
+                };
+                lista.add(fila);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al listar pagos con detalle: " + e.getMessage());
+        }
+
+        return lista;
+    }
 }

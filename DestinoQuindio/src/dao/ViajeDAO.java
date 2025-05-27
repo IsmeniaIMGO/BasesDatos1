@@ -227,4 +227,79 @@ public class ViajeDAO {
 }
 
 
+public List<Object[]> listarClientesConNombre() {
+    List<Object[]> lista = new ArrayList<>();
+    String sql = """
+        SELECT c.cc, u.nombre
+        FROM Cliente c
+        JOIN Usuario u ON c.cc = u.cc
+    """;
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            lista.add(new Object[]{ rs.getInt("cc"), rs.getString("nombre") });
+        }
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al listar clientes: " + e.getMessage());
+    }
+
+    return lista;
+}
+
+public List<Object[]> listarViajesConDatosPorCliente(int clienteCc) {
+    List<Object[]> lista = new ArrayList<>();
+    String sql = """
+        SELECT 
+            v.id AS id,
+            v.fecha AS fecha,
+            p.valor AS pago,
+            u1.nombre AS cliente,
+            u2.nombre AS conductor,
+            uo.id AS ubicacionOrigen,
+            ud.id AS ubicacionDestino,
+            e.nombre AS estado,
+            ve.placa AS vehiculo
+        FROM Viaje v
+        JOIN Pago p ON v.pago = p.id
+        JOIN Usuario u1 ON v.cliente = u1.cc
+        JOIN Usuario u2 ON v.conductor = u2.cc
+        JOIN Ubicacion uo ON v.ubicacionOrigen = uo.id
+        JOIN Ubicacion ud ON v.ubicacionDestino = ud.id
+        JOIN Estado e ON v.estado = e.id
+        JOIN Vehiculo ve ON v.vehiculo = ve.placa
+        WHERE u1.cc = ?
+    """;
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, clienteCc);
+        try (ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Object[] fila = new Object[]{
+                    rs.getInt("id"),
+                    rs.getDate("fecha"),
+                    rs.getDouble("pago"),
+                    rs.getString("cliente"),
+                    rs.getString("conductor"),
+                    rs.getString("ubicacionOrigen"),
+                    rs.getString("ubicacionDestino"),
+                    rs.getString("estado"),
+                    rs.getString("vehiculo")
+                };
+                lista.add(fila);
+            }
+        }
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al listar viajes con datos: " + e.getMessage());
+    }
+
+    return lista;
+}
 }

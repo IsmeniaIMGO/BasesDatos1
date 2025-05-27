@@ -128,4 +128,28 @@ public class ConductorDAO {
     return lista;
     }
 
+    
+    public List<Object[]> listarConductoresConNombre() {
+    List<Object[]> lista = new ArrayList<>();
+    String sql = """
+        SELECT c.cc, u.nombre
+        FROM Conductor c
+        JOIN Usuario u ON c.cc = u.cc
+    """;
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            lista.add(new Object[]{ rs.getInt("cc"), rs.getString("nombre") });
+        }
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al listar conductores: " + e.getMessage());
+    }
+
+    return lista;
+}
+
 }

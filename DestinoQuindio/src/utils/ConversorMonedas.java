@@ -20,7 +20,7 @@ public class ConversorMonedas extends JFrame implements ActionListener {
     public ConversorMonedas() {
         setTitle("Conversor de Monedas");
         setSize(400, 250);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Cambiar a DISPOSE_ON_CLOSE
         setLocationRelativeTo(null); // Centrar la ventana
 
         // Configurar el panel principal con un GridLayout

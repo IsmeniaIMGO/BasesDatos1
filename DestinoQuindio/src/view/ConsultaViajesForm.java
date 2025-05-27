@@ -19,7 +19,7 @@ public class ConsultaViajesForm extends JFrame {
         setLayout(new BorderLayout());
 
         modelo = new DefaultTableModel(
-                new Object[]{"ID", "Fecha", "Cliente", "Conductor", "Vehículo", "Origen", "Destino", "Estado", "Valor"}, 0);
+                new Object[]{"ID", "Fecha", "Valor", "Cliente", "Conductor", "Origen", "Destino", "Estado", "Vehículo" }, 0);
         tabla = new JTable(modelo);
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 

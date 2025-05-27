@@ -4,6 +4,7 @@ import src.dao.*;
 import src.model.*;
 import javax.swing.*;
 import java.awt.*;
+import src.controller.*;;
 
 public class RegistroForm extends JFrame {
     private JTextField txtNombre, txtTelefono, txtCorreo, txtUsuario, txtPlaca;

@@ -1,7 +1,21 @@
-package src.view;
+package src.controller;
 
 import src.model.*;
 import src.utils.*;
+import src.view.BitacoraUsuariosForm;
+import src.view.ConsultaClientesForm;
+import src.view.ConsultaConductoresForm;
+import src.view.ConsultaPagosForm;
+import src.view.ConsultaUbicacionesForm;
+import src.view.ConsultaUsuariosForm;
+import src.view.ConsultaVehiculosForm;
+import src.view.ConsultaViajesForm;
+import src.view.GestionUsuariosForm;
+import src.view.GuiaUsuarioForm;
+import src.view.PagoForm;
+import src.view.UbicacionForm;
+import src.view.VehiculoForm;
+import src.view.ViajeForm;
 
 import javax.swing.*;
 
@@ -25,19 +39,19 @@ public class MenuAdmin extends JFrame {
         menuEntidades.add(miCRUDUsuarios);
 
         JMenuItem miCRUDClientes = new JMenuItem("Vehiculos");
-        miCRUDClientes.addActionListener(e -> new ConsultaClientesForm());
+        miCRUDClientes.addActionListener(e -> new VehiculoForm());
         menuEntidades.add(miCRUDClientes);
 
         JMenuItem miCRUDConductores = new JMenuItem("Ubicaciones");
-        miCRUDConductores.addActionListener(e -> new ConsultaConductoresForm());
+        miCRUDConductores.addActionListener(e -> new UbicacionForm());
         menuEntidades.add(miCRUDConductores);
 
         JMenuItem miCRUDVehiculos = new JMenuItem("Pagos");
-        miCRUDVehiculos.addActionListener(e -> new ConsultaVehiculosForm());
+        miCRUDVehiculos.addActionListener(e -> new PagoForm());
         menuEntidades.add(miCRUDVehiculos);
 
         JMenuItem miCRUDUbicaciones = new JMenuItem("Viajes");
-        miCRUDUbicaciones.addActionListener(e -> new ConsultaUbicacionesForm());
+        miCRUDUbicaciones.addActionListener(e -> new ViajeForm());
         menuEntidades.add(miCRUDUbicaciones);
 
         

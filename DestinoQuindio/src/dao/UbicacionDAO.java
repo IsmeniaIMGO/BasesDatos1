@@ -24,6 +24,27 @@ public class UbicacionDAO {
         }
     }
 
+    public boolean actualizarUbicacion(Ubicacion u) {
+    String sql = "UPDATE Ubicacion SET longitud = ?, latitud = ?, municipio = ? WHERE id = ?";
+
+    try (Connection conn = ConexionBD.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setDouble(1, u.getLongitud());
+        stmt.setDouble(2, u.getLatitud());
+        stmt.setInt(3, u.getMunicipio());
+        stmt.setInt(4, u.getId());
+
+        return stmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        System.err.println("❌ Error al actualizar ubicación: " + e.getMessage());
+        return false;
+    }
+
+    }
+
+
     public Ubicacion obtenerUbicacionPorId(int id) {
         String sql = "SELECT * FROM Ubicacion WHERE id = ?";
         Ubicacion u = null;

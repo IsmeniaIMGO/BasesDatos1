@@ -1,6 +1,7 @@
 import java.sql.Connection;
+
+import src.controller.*;
 import src.dao.ConexionBD;
-import src.view.*;
 import src.model.*;
 
 
@@ -22,9 +23,10 @@ public class Main {
        
 
         // Iniciar el formulario de login
-        //new LoginForm();
-        new MenuAdmin(usuario);
+        new LoginForm();
+        //new MenuAdmin(usuario);
         //new MenuCliente(usuario);
+        //new MenuConductor(usuario);
     }
 
 }

@@ -16,4 +16,27 @@ public class AdministradorDAO {
             return false;
         }
     }
+
+
+    public AdministradorDB obtenerAdministradorPorCc(int cc) {
+        String sql = "SELECT * FROM AdministradorDB WHERE cc = ?";
+        AdministradorDB administrador = null;
+
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, cc);
+            var rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                administrador = new AdministradorDB();
+                administrador.setCc(rs.getInt("cc"));
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Error al obtener administrador: " + e.getMessage());
+        }
+
+        return administrador;
+    }
 }

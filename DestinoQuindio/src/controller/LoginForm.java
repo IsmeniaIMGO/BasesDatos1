@@ -1,7 +1,8 @@
-package src.view;
+package src.controller;
 
 import src.dao.*;
 import src.model.*;
+import src.view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,31 +53,42 @@ public class LoginForm extends JFrame {
         Cuenta cuenta = cuentaDAO.obtenerCuentaPorCorreo(correo);
 
         if (cuenta != null && cuenta.getcontrasena().equals(contrasena)) {
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            Usuario usuario = usuarioDAO.obtenerUsuarioPorCuenta(correo);
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario usuario = usuarioDAO.obtenerUsuarioPorCuenta(correo);
 
-            if (usuario != null) {
-                registrarSesion(usuario);
-                JOptionPane.showMessageDialog(this, "✅ Bienvenido, " + usuario.getNombre());
+        if (usuario != null) {
+            registrarSesion(usuario);
+            JOptionPane.showMessageDialog(this, "✅ Bienvenido, " + usuario.getNombre());
 
-                // Redirigir según nivel
-                switch (usuario.getNivel()) {
-                    case 1:
-                        new MenuAdmin(usuario); break;
-                    case 2:
-                        new MenuConductor(usuario); break;
-                    case 3:
-                        new MenuCliente(usuario); break;
-                    default:
-                        JOptionPane.showMessageDialog(this, "❌ Nivel de acceso no válido.");
-                }
-                dispose(); // Cerrar login
+            // Obtener la cédula del usuario
+            int cc = usuario.getCc();
+
+            // Verificar si es Cliente o Conductor
+            ClienteDAO clienteDAO = new ClienteDAO();
+            ConductorDAO conductorDAO = new ConductorDAO();
+            AdministradorDAO administradorDAO = new AdministradorDAO();
+            JefeDAO jefeDAO = new JefeDAO();
+
+            if (clienteDAO.obtenerClientePorCc(cc) != null) {
+                new MenuCliente(usuario);
+            } else if (conductorDAO.obtenerConductorPorCc(cc) != null) {
+                new MenuConductor(usuario);
+            } else if (administradorDAO.obtenerAdministradorPorCc(cc) != null) {
+                new MenuAdmin(usuario);
+            } else if (jefeDAO.obtenerJefePorCc(cc) != null) {
+                new MenuAdmin(usuario);
+            
             } else {
-                JOptionPane.showMessageDialog(this, "❌ Usuario no registrado.");
+                JOptionPane.showMessageDialog(this, "❌ No se pudo determinar el tipo de usuario.");
             }
+
+            dispose(); // Cerrar login
         } else {
-            JOptionPane.showMessageDialog(this, "❌ Credenciales incorrectas.");
+            JOptionPane.showMessageDialog(this, "❌ Usuario no registrado.");
         }
+    } else {
+        JOptionPane.showMessageDialog(this, "❌ Credenciales incorrectas.");
+    }
     }
 
     private void registrarSesion(Usuario usuario) {
