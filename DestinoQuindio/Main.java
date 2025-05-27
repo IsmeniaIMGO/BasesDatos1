@@ -2,6 +2,7 @@ import java.sql.Connection;
 
 import src.controller.*;
 import src.dao.ConexionBD;
+import src.model.Usuario;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,7 +17,7 @@ public class Main {
             System.err.println("❌ Error al conectar a la base de datos: " + e.getMessage());
         }
 
-        //Usuario usuario = new Usuario();
+       // Usuario usuario = new Usuario();
         //usuario.setNombre("Juan Pérez");
        
 

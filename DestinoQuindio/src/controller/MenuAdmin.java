@@ -144,10 +144,11 @@ public class MenuAdmin extends JFrame {
 
         // Utilidades
         JMenu menuUtilidades = new JMenu("Utilidades");
+
         JMenuItem miCalculadora = new JMenuItem("Calculadora");
         miCalculadora.addActionListener(e -> SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Calculadora();
+                new Calculadora().setVisible(true);;
             }
         }));
         menuUtilidades.add(miCalculadora);
