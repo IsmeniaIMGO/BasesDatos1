@@ -1,12 +1,6 @@
 package src.view;
 
-import src.dao.JefeDao;
-import src.dao.AdministradorDAO;
-import src.dao.ConductorDAO;
-import src.dao.CuentaDAO;
-import src.dao.ClienteDAO;
-import src.dao.UsuarioDAO;
-import src.dao.VehiculoDAO;
+import src.dao.*;
 import src.model.*;
 
 import javax.swing.*;
@@ -136,7 +130,7 @@ public class UsuarioForm extends JFrame {
                     new ConductorDAO().insertarConductor(new Conductor(cc, placa));
                     break;
                 case "Jefe":
-                    new JefeDao().insertarJefe(new Jefe(cc));
+                    new JefeDAO().insertarJefe(new Jefe(cc));
                     break;
                 case "Administrador":
                     new AdministradorDAO().insertarAdministrador(new AdministradorDB(cc));
